@@ -86,14 +86,72 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/js/lib/core.js":
+/*!****************************!*\
+  !*** ./src/js/lib/core.js ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// (() => {
+//     const $ = function (selector) {
+//         const elements = document.querySelectorAll(selector);
+//         const obj = {}
+//         obj.hide = () => {
+//             elements.forEach(elem => {
+//                 elem.style.display = 'none';
+//             })
+//             return obj;
+//         }
+//         obj.show = () => {
+//             elements.forEach(elem => {
+//                 elem.style.display = '';
+//             })
+//             return obj;
+//         }
+//         return obj;
+//     }
+//     window.$ = $;
+// })();
+const $ = function (selector) {
+  return new $.prototype.init(selector);
+};
+
+$.prototype.init = function (selector) {
+  if (!selector) {
+    return this; // {}
+  }
+
+  Object.assign(this, document.querySelectorAll(selector));
+  this.length = document.querySelectorAll(selector).length;
+  return this;
+};
+
+$.prototype.init.prototype = $.prototype;
+const obj = {
+  name: 'vadim',
+  _age: 24
+};
+const data = "name";
+console.log(obj._age);
+console.log(obj["data"]);
+console.log(obj[data]);
+
+/***/ }),
+
 /***/ "./src/js/main.js":
 /*!************************!*\
   !*** ./src/js/main.js ***!
   \************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-console.log('Hello!');
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _lib_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/core */ "./src/js/lib/core.js");
+/* harmony import */ var _lib_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_lib_core__WEBPACK_IMPORTED_MODULE_0__);
+
+$('.active').hide().show();
 
 /***/ })
 
