@@ -1,3 +1,9 @@
-import './lib/core'
+import './lib/lib'
+import $ from './lib/lib';
 
-$('.active').hide().show()
+$('button').on('click', function(){
+$(this).toggleClass('active')
+});
+
+console.log($('button').html('hello'))
+
