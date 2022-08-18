@@ -4,7 +4,7 @@ import $ from '../core';
 $.prototype.addClass = function (...classNames) {
     for (let i = 0; i < this.length; i++) {
 
-        if (!this[i].classList) {
+        if (!this[i]) {
             continue;
         }
 
