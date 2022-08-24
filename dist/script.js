@@ -86,6 +86,166 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/js/lib/components/dropdown.js":
+/*!*******************************************!*\
+  !*** ./src/js/lib/components/dropdown.js ***!
+  \*******************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core */ "./src/js/lib/core.js");
+
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.dropdown = function () {
+  for (let i = 0; i < this.length; i++) {
+    const id = this[i].getAttribute('id');
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).click(() => {
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(`[data-toggle-id="${id}"]`).fadeToggle(300);
+    });
+  }
+};
+
+Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('.dropdown-toggle').dropdown();
+
+/***/ }),
+
+/***/ "./src/js/lib/components/modal.js":
+/*!****************************************!*\
+  !*** ./src/js/lib/components/modal.js ***!
+  \****************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core */ "./src/js/lib/core.js");
+
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.modal = function (created) {
+  for (let i = 0; i < this.length; i++) {
+    const target = this[i].getAttribute('data-target');
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).click(e => {
+      e.preventDefault();
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(target).fadeIn(500);
+      document.body.style.overflow = 'hidden';
+    });
+    const closeElements = document.querySelectorAll(`${target} [data-close]`);
+    closeElements.forEach(elem => {
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(elem).click(() => {
+        Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(target).fadeOut(500);
+        document.body.style.overflow = '';
+
+        if (created) {
+          document.querySelector(target).remove();
+        }
+      });
+    });
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(target).click(e => {
+      if (e.target.classList.contains('modal')) {
+        Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(target).fadeOut(500);
+        document.body.style.overflow = '';
+
+        if (created) {
+          document.querySelector(target).remove();
+        }
+      }
+    });
+  }
+};
+
+Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('[data-toggle="modal"]').modal();
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.createModal = function () {
+  let {
+    text,
+    btns
+  } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  for (let i = 0; i < this.length; i++) {
+    let modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.setAttribute('id', this[i].getAttribute('data-target').slice(1)); // btns = {count: num, settings: [[text, classNames=[], close, cb]]}
+
+    const buttons = [];
+
+    for (let j = 0; j < btns.count; j++) {
+      let btn = document.createElement('button');
+      btn.classList.add('btn', ...btns.settings[j][1]);
+      btn.textContent = btns.settings[j][0];
+
+      if (btns.settings[j][2]) {
+        btn.setAttribute('data-close', 'true');
+      }
+
+      if (btns.settings[j][3] && typeof btns.settings[j][3] === 'function') {
+        btn.addEventListener('click', btns.settings[j][3]);
+      }
+
+      buttons.push(btn);
+    }
+
+    modal.innerHTML = `
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <button class="close" data-close>
+                    <span>&times;</span>
+                </button>
+                <div class="modal-header">
+                    <div class="modal-title">
+                        ${text.title}
+                    </div>
+                </div>
+                <div class="modal-body">
+                    ${text.body}
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+        `;
+    modal.querySelector(".modal-footer").append(...buttons);
+    document.body.appendChild(modal);
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).modal(true);
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i].getAttribute('data-target')).fadeIn(500);
+  }
+};
+
+/***/ }),
+
+/***/ "./src/js/lib/components/tab.js":
+/*!**************************************!*\
+  !*** ./src/js/lib/components/tab.js ***!
+  \**************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core */ "./src/js/lib/core.js");
+
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.tab = function () {
+  for (let i = 0; i < this.length; i++) {
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).on('click', () => {
+      //*вешаем обработчик на каждый tab-item
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]) //* обращение к жлементу с которым взаимодействуем 
+      .addClass('tab-item--active') //* добавляем класс активности 
+      .siblings() //* назодим все соседнии элементы (исключая текущий)
+      .removeClass('tab-item--active') //* удаляем клас активности у всех соседей
+      .closest('.tab') //* назодим родителя с класом tab
+      .find('.tab-content') //* ищем жлементы с класом tab-content внуттри ро
+      .removeClass('tab-content--active').eq(Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).index()).addClass('tab-content--active');
+    });
+  }
+};
+
+Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('[data-tabpanel] .tab-item').tab();
+
+/***/ }),
+
 /***/ "./src/js/lib/core.js":
 /*!****************************!*\
   !*** ./src/js/lib/core.js ***!
@@ -136,6 +296,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_handlers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/handlers */ "./src/js/lib/modules/handlers.js");
 /* harmony import */ var _modules_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/actions */ "./src/js/lib/modules/actions.js");
 /* harmony import */ var _modules_effects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/effects */ "./src/js/lib/modules/effects.js");
+/* harmony import */ var _components_dropdown__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/dropdown */ "./src/js/lib/components/dropdown.js");
+/* harmony import */ var _components_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/modal */ "./src/js/lib/components/modal.js");
+/* harmony import */ var _components_tab__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/tab */ "./src/js/lib/components/tab.js");
+
+
+
 
 
 
@@ -463,6 +629,34 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeOut = function (dur,
   return this;
 };
 
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeToggle = function (dur, display, fin) {
+  for (let i = 0; i < this.length; i++) {
+    if (window.getComputedStyle(this[i]).display === 'none') {
+      this[i].style.display = display || 'block';
+
+      const _fadeIn = complection => {
+        this[i].style.opacity = complection;
+      };
+
+      const ani = this.animateOverTime(dur, _fadeIn, fin);
+      requestAnimationFrame(ani);
+    } else {
+      const _fadeOut = complection => {
+        this[i].style.opacity = 1 - complection;
+
+        if (complection === 1) {
+          this[i].style.display = 'none';
+        }
+      };
+
+      const ani = this.animateOverTime(dur, _fadeOut, fin);
+      requestAnimationFrame(ani);
+    }
+  }
+
+  return this;
+};
+
 /***/ }),
 
 /***/ "./src/js/lib/modules/handlers.js":
@@ -526,18 +720,38 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.click = function (handle
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/lib */ "./src/js/lib/lib.js");
 
-
-Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('button').on('click', function () {
-  Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('div').eq(2).toggleClass('active');
+Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('#first').on('click', () => {
+  Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('div').eq(1).fadeToggle(800);
 });
-Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('div').click(function () {
-  console.log(Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])(this).index());
-}); // console.log($('div').eq(2).find('.some'));
-// console.log($('.some').closest('.findddme').addClass('wefsdf'));
-// $('script').addClass('dfasdf')
-// console.log($('button').html('hello'))
-
-Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('button').fadeIn(1800);
+Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('[data-count="second"]').on('click', () => {
+  Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('div').eq(2).fadeToggle(800);
+});
+Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('button').eq(2).on('click', () => {
+  Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('.w-500').fadeToggle(800);
+});
+Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('.wrap').html(`  <div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton">Dropdaun button</button>
+    <div class="dropdown-menu" data-toggle-id="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Action #1</a>
+        <a class="dropdown-item" href="#">Action #2</a>
+        <a class="dropdown-item" href="#">Action #3</a>
+    </div>
+</div>`);
+Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('.dropdown-toggle').dropdown();
+Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('#trigger').click(() => Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('#trigger').createModal({
+  text: {
+    title: 'Modal title',
+    body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum minus doloremque nesciunt enim rem quam corporis? Dolorem pariatur magnam distinctio perferendis. Ratione dolorem voluptates iusto facilis odit veritatis, suscipit voluptatibus!'
+  },
+  btns: {
+    count: 3,
+    settings: [['Close', ['btn-danger', 'mr-10'], true], ['Save changes', ['btn-success'], false, () => {
+      alert('Данные сохранены');
+    }], ['Another btn', ['btn-warning', 'ml-10'], false, () => {
+      alert('Hello World');
+    }]]
+  }
+}));
 
 /***/ })
 
