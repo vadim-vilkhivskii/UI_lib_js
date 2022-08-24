@@ -235,9 +235,11 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.tab = function () {
       .addClass('tab-item--active') //* добавляем класс активности 
       .siblings() //* назодим все соседнии элементы (исключая текущий)
       .removeClass('tab-item--active') //* удаляем клас активности у всех соседей
-      .closest('.tab') //* назодим родителя с класом tab
-      .find('.tab-content') //* ищем жлементы с класом tab-content внуттри ро
-      .removeClass('tab-content--active').eq(Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).index()).addClass('tab-content--active');
+      .closest('.tab') //* находим ближайшего родителя с класом tab
+      .find('.tab-content') //* ищем элементы с класом tab-content внуттри р
+      .removeClass('tab-content--active') //* удаляем клас активности в блоках контента
+      .eq(Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).index()) //*среди элементов .tab-content используем элемент по определённому номеру
+      .addClass('tab-content--active'); //* и добавляем клас активности 
     });
   }
 };
