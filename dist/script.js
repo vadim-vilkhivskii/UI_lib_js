@@ -86,6 +86,46 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/js/lib/components/accordion.js":
+/*!********************************************!*\
+  !*** ./src/js/lib/components/accordion.js ***!
+  \********************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core */ "./src/js/lib/core.js");
+
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.accordion = function () {
+  let headActive = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'accordion-head--active';
+  let contentActive = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'accordion-content--active';
+  let paddings = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 40;
+
+  for (let i = 0; i < this.length; i++) {
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).click(() => {
+      //* вешам обработчик на все заголовки аккордеона
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).toggleClass(headActive); //*при клике тоглим класс активности
+
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i].nextElementSibling).toggleClass(contentActive); //*ищем соседний элемент и тоглим класс активности
+
+      if (this[i].classList.contains(headActive)) {
+        //*елси у элемента на который кликнули есть класс активности 
+        this[i].nextElementSibling.style.maxHeight = this[i].nextElementSibling //*тогда уведичиваем  высоту
+        .scrollHeight + paddings + 'px'; //* следующего элемента на высоту которая у него должна быть + отступы +px
+      } else {
+        //*если класа активности нет тогда устанавливаем высоту следующего элементы в ноль
+        this[i].nextElementSibling.style.maxHeight = '0px';
+      }
+    });
+  }
+};
+
+Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('.accordion-head').accordion();
+
+/***/ }),
+
 /***/ "./src/js/lib/components/dropdown.js":
 /*!*******************************************!*\
   !*** ./src/js/lib/components/dropdown.js ***!
@@ -301,6 +341,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_dropdown__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/dropdown */ "./src/js/lib/components/dropdown.js");
 /* harmony import */ var _components_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/modal */ "./src/js/lib/components/modal.js");
 /* harmony import */ var _components_tab__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/tab */ "./src/js/lib/components/tab.js");
+/* harmony import */ var _components_accordion__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/accordion */ "./src/js/lib/components/accordion.js");
+
 
 
 
